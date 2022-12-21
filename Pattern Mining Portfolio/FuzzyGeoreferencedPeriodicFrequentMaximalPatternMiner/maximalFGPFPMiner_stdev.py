@@ -19,7 +19,19 @@
 #
 #      You should have received a copy of the GNU General Public License
 #      along with this program.  If not, see <https://www.gnu.org/licenses/>.
-
+#
+#      This program is free software: you can redistribute it and/or modify
+#      it under the terms of the GNU General Public License as published by
+#      the Free Software Foundation, either version 3 of the License, or
+#      (at your option) any later version.
+#
+#      This program is distributed in the hope that it will be useful,
+#      but WITHOUT ANY WARRANTY; without even the implied warranty of
+#      MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#      GNU General Public License for more details.
+#
+#      You should have received a copy of the GNU General Public License
+#      along with this program.  If not, see <https://www.gnu.org/licenses/>.
 import time
 from statistics import stdev
 
@@ -235,6 +247,7 @@ class FGPFPMiner(_ab._fuzzySpatialFrequentPatterns):
         self._regionsNumber = 0
         self._RegionsCal = []
         self._RegionsLabel = []
+        self._finalMaximalPatterns = []
         self._LabelKey = {}
 
     def _compareItems(self, o1, o2):
@@ -359,7 +372,7 @@ class FGPFPMiner(_ab._fuzzySpatialFrequentPatterns):
                     with open(self._nFile, 'r', encoding='utf-8') as f:
                         for line in f:
                             line = line.split("\n")[0]
-                            parts = [i.rstrip() for i in line.split(" ")]
+                            parts = [i.rstrip() for i in line.split(self._sep)]
                             parts = [x for x in parts]
                             item = parts[0]
                             neigh1 = []
@@ -499,6 +512,7 @@ class FGPFPMiner(_ab._fuzzySpatialFrequentPatterns):
         itemNeighbours = list(self._mapItemNeighbours.keys())
         self._FSFIMining(self._itemSetBuffer, 0, listOfFFList, self._minSup, itemNeighbours)
         self._generateClosedPatterns()
+        self._generateMaximalPatterns()
         self._endTime = _ab._time.time()
         process = _ab._psutil.Process(_ab._os.getpid())
         self._memoryUSS = float()
@@ -736,6 +750,41 @@ class FGPFPMiner(_ab._fuzzySpatialFrequentPatterns):
             else:
                 print("Result: CLOSED first discovery in group")
                 self._finalClosedPeriodicPatterns[str(group)] = [checkKey_List]
+
+    def _generateMaximalPatterns(self):
+
+        self._finalMaximalPatterns = []
+        for key, value in self._finalClosedPeriodicPatterns.items():
+            for i in range(0,len(value)):
+                self._finalMaximalPatterns.append(value[i])
+
+        i = 0
+        listlen = len(self._finalMaximalPatterns)
+        print(self._finalMaximalPatterns)
+        self._finalMaximalPatterns.sort(key=len)
+        print(self._finalMaximalPatterns)
+        while i < listlen:
+            print(self._finalMaximalPatterns)
+            print("i**************", self._finalMaximalPatterns[i])
+            print(i, "|", listlen)
+            item1 = self._finalMaximalPatterns[i]
+            j = i + 1
+            print("\t", "j**************")
+            while j < listlen:
+                item2 = self._finalMaximalPatterns[j]
+                print("\t", i, ",", item1, "|", j, ",", item2, "|", listlen)
+                if set(item1).issubset(set(item2)):
+                    print("\t", "found at ", j)
+                    self._finalMaximalPatterns.remove(item1)
+                    listlen -= 1
+                    j += 1
+                    i = -1
+                    break
+                j += 1
+            i += 1
+
+
+
 
     def savePatterns(self, outFile):
         """Complete set of frequent patterns will be loaded in to a output file

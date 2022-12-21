@@ -1,10 +1,9 @@
 #  Copyright (C)  2021 Rage Uday Kiran
-
 """
 
     Credits:
     -------
-        The program was written by Kundai Kwangwari
+        The program was written by B.Sai Chitra and Kundai Kwangwari
         under the supervision of Professor Rage Uday Kiran.
 
 """
@@ -20,6 +19,8 @@
 #
 #      You should have received a copy of the GNU General Public License
 #      along with this program.  If not, see <https://www.gnu.org/licenses/>.
+#
+
 
 from abc import ABC as _ABC, abstractmethod as _abstractmethod
 import time as _time
@@ -35,7 +36,8 @@ import validators as _validators
 from urllib.request import urlopen as _urlopen
 import functools as _functools
 
-class _fuzzySpatialFrequentPatterns(_ABC):
+
+class _fuzzyFrequentPattenrs(_ABC):
     """ This abstract base class defines the variables and methods that every frequent pattern mining algorithm must
         employ in PAMI
 
@@ -84,16 +86,14 @@ class _fuzzySpatialFrequentPatterns(_ABC):
 
     """
 
-    def __init__(self, iFile, nFile,FuzFile, minSup, maxPer, sep="\t"):
+    def __init__(self, iFile, minSup, sep = "\t"):
         """
         :param iFile: Input file name or path of the input file
         :type iFile: str
-        :param nFile: neighbourhood file name or path
-        :type nFile: str
         :param minSup: The user can specify minSup either in count or proportion of database size.
             If the program detects the data type of minSup is integer, then it treats minSup is expressed in count.
             Otherwise, it will be treated as float.
-            Example: minSup=10 will be treated as integer, while minSup=0.3 will be treated as float
+            Example: minSup=10 will be treated as integer, while minSup=10.0 will be treated as float
         :type minSup: int or float or str
         :param sep: separator used to distinguish items from each other. The default separator is tab space. However, users can override the default separator
         :type sep: str
@@ -101,16 +101,13 @@ class _fuzzySpatialFrequentPatterns(_ABC):
 
         self._iFile = iFile
         self._sep = sep
-        self._nFile = nFile
-        self._FuzFile = FuzFile
         self._minSup = minSup
-        self._maxPer = maxPer
         self._startTime = float()
         self._endTime = float()
-        self._finalPatterns = {}
-        self._oFile = str()
         self._memoryUSS = float()
         self._memoryRSS = float()
+        self._oFile = str()
+        self._finalPatterns = {}
 
     @_abstractmethod
     def startMine(self):

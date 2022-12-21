@@ -1,8 +1,12 @@
 #  Copyright (C)  2021 Rage Uday Kiran
-#
-#  This algorithm was written by Kundai Kwangwari under the supervision
-#  of Professor Rage Uday Kiran
-#
+"""
+
+    Credits:
+    -------
+        The program was written by Kundai Kwangwari
+        under the supervision of Professor Rage Uday Kiran.
+
+"""
 #      This program is free software: you can redistribute it and/or modify
 #      it under the terms of the GNU General Public License as published by
 #      the Free Software Foundation, either version 3 of the License, or

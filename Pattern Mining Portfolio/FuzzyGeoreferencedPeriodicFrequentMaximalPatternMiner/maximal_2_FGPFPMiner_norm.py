@@ -19,7 +19,19 @@
 #
 #      You should have received a copy of the GNU General Public License
 #      along with this program.  If not, see <https://www.gnu.org/licenses/>.
-
+#
+#      This program is free software: you can redistribute it and/or modify
+#      it under the terms of the GNU General Public License as published by
+#      the Free Software Foundation, either version 3 of the License, or
+#      (at your option) any later version.
+#
+#      This program is distributed in the hope that it will be useful,
+#      but WITHOUT ANY WARRANTY; without even the implied warranty of
+#      MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#      GNU General Public License for more details.
+#
+#      You should have received a copy of the GNU General Public License
+#      along with this program.  If not, see <https://www.gnu.org/licenses/>.
 import time
 from statistics import stdev
 
@@ -223,6 +235,7 @@ class FGPFPMiner(_ab._fuzzySpatialFrequentPatterns):
         self._itemSupData = {}
         self._mapItemSum = {}
         self._finalClosedPeriodicPatterns = {}
+        self._finalMaximalPatterns = []
         self._mapItemRegions = {}
         self._fuzzyRegionReferenceMap = {}
         self._joinsCnt = 0
@@ -498,7 +511,8 @@ class FGPFPMiner(_ab._fuzzySpatialFrequentPatterns):
             tid += 1
         itemNeighbours = list(self._mapItemNeighbours.keys())
         self._FSFIMining(self._itemSetBuffer, 0, listOfFFList, self._minSup, itemNeighbours)
-        self._generateClosedPatterns()
+        #self._generateClosedPatterns()
+        self._generateMaximalPatterns()
         self._endTime = _ab._time.time()
         process = _ab._psutil.Process(_ab._os.getpid())
         self._memoryUSS = float()
@@ -692,14 +706,13 @@ class FGPFPMiner(_ab._fuzzySpatialFrequentPatterns):
             tempKeyList.append(float(self._finalPeriodicPatterns[key]))
         self._supCeiling = max(tempKeyList)
         self._supFloor = min(tempKeyList)
-        st_dev = stdev(tempKeyList)
         print("min:", self._supFloor, "max:", self._supCeiling, "standard deviation is:", stdev(tempKeyList))
         keyList = sorted(list((self._finalPeriodicPatterns.keys())))
         for checkKey in keyList:
-            group = self._findGroup(st_dev, checkKey)
+            group = round(float(self._finalPeriodicPatterns[checkKey]),1)
             checkKey_List = [i.rstrip() for i in checkKey.split(" ")]
             checkKey_List = [x for x in checkKey_List]
-            print("checking|", checkKey_List, "in", group )
+            print("checking|", checkKey_List, "sup", group )
             if str(group) in self._finalClosedPeriodicPatterns:
                 isClosed, isFound = False, False
                 ClosedPatterns = sorted(self._finalClosedPeriodicPatterns[str(group)])
@@ -737,13 +750,46 @@ class FGPFPMiner(_ab._fuzzySpatialFrequentPatterns):
                 print("Result: CLOSED first discovery in group")
                 self._finalClosedPeriodicPatterns[str(group)] = [checkKey_List]
 
+    def _generateMaximalPatterns(self):
+
+        keyList = sorted(list((self._finalPeriodicPatterns.keys())))
+        for checkKey in keyList:
+            checkKey_List = [i.rstrip() for i in checkKey.split(" ")]
+            checkKey_List = [x for x in checkKey_List]
+            self._finalMaximalPatterns.append(checkKey_List)
+
+        i = 0
+        listlen = len(self._finalMaximalPatterns)
+        print(self._finalMaximalPatterns)
+        self._finalMaximalPatterns.sort(key=len)
+        print(self._finalMaximalPatterns)
+        while i < listlen:
+            print(self._finalMaximalPatterns)
+            print("i**************", self._finalMaximalPatterns[i])
+            print(i, "|", listlen)
+            item1 = self._finalMaximalPatterns[i]
+            j = i + 1
+            print("\t", "j**************")
+            while j < listlen:
+                item2 = self._finalMaximalPatterns[j]
+                print("\t", i, ",", item1, "|", j, ",", item2, "|", listlen)
+                if set(item1).issubset(set(item2)):
+                    print("\t", "found at ", j)
+                    self._finalMaximalPatterns.remove(item1)
+                    listlen -= 1
+                    j += 1
+                    i = -1
+                    break
+                j += 1
+            i += 1
+
     def savePatterns(self, outFile):
         """Complete set of frequent patterns will be loaded in to a output file
         :param outFile: name of the output file
         :type outFile: file
         """
         filename = self._iFile.strip(".txt")
-        outFile = str(self._minSup) + "_FGPFP_" + filename + "_finalPatterns.txt"
+        outFile = str(self._minSup) + "_FGPFP_" + filename + "_NfinalPatterns.txt"
         self.oFile = outFile
         keylist = (self._finalPatterns.keys())
         writer = open(self.oFile, 'w+')
@@ -751,12 +797,23 @@ class FGPFPMiner(_ab._fuzzySpatialFrequentPatterns):
             patternsAndSupport = str(x) + " : " + str(self._finalPatterns[x])
             writer.write("%s \n" % patternsAndSupport)
 
-        outFile = str(self._minSup) + "_FGPFP_" + filename + "_finalClosedPeriodicPatterns.txt"
+        """outFile = str(self._minSup) + "_FGPFP_" + filename + "_finalClosedPeriodicPatterns.txt"
         self.oFile = outFile
         writer = open(self.oFile, 'w+')
         keylist = sorted(self._finalClosedPeriodicPatterns.keys())
         for x in keylist:
-            patternsAndSupport = str(x) + " : " + str(self._finalClosedPeriodicPatterns[x])
+            itemList = ""
+            for i in range(0, len(self._finalClosedPeriodicPatterns[x])):
+                itemList += str(self._finalClosedPeriodicPatterns[x][i])
+            patternsAndSupport = str(x) + " : " + str(itemList)
+            writer.write("%s \n" % patternsAndSupport)
+        """
+
+        outFile = str(self._minSup) + "_FGPFP_" + filename + "_NfinalMaximalPatterns.txt"
+        self.oFile = outFile
+        writer = open(self.oFile, 'w+')
+        for x in range(0,len(self._finalMaximalPatterns)):
+            patternsAndSupport = str(self._finalMaximalPatterns[x])
             writer.write("%s \n" % patternsAndSupport)
 
     def getPatternsAsDataframe(self):

@@ -1,5 +1,4 @@
 #  Copyright (C)  2021 Rage Uday Kiran
-
 """
 
     Credits:
@@ -20,6 +19,7 @@
 #
 #      You should have received a copy of the GNU General Public License
 #      along with this program.  If not, see <https://www.gnu.org/licenses/>.
+
 
 from abc import ABC as _ABC, abstractmethod as _abstractmethod
 import time as _time
