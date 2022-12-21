@@ -1,17 +1,7 @@
 #  Copyright (C)  2021 Rage Uday Kiran
 #
-#      This program is free software: you can redistribute it and/or modify
-#      it under the terms of the GNU General Public License as published by
-#      the Free Software Foundation, either version 3 of the License, or
-#      (at your option) any later version.
-#
-#      This program is distributed in the hope that it will be useful,
-#      but WITHOUT ANY WARRANTY; without even the implied warranty of
-#      MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-#      GNU General Public License for more details.
-#
-#      You should have received a copy of the GNU General Public License
-#      along with this program.  If not, see <https://www.gnu.org/licenses/>.
+#  This algorithm was written by Kundai Kwangwari under the supervision
+#  of Professor Rage Uday Kiran
 #
 #      This program is free software: you can redistribute it and/or modify
 #      it under the terms of the GNU General Public License as published by
@@ -25,9 +15,11 @@
 #
 #      You should have received a copy of the GNU General Public License
 #      along with this program.  If not, see <https://www.gnu.org/licenses/>.
+
 import time
+from statistics import stdev
+
 import pandas as pd
-from operator import add
 import plotly.express as px
 import abstract as _ab
 
@@ -218,8 +210,8 @@ class FGPFPMiner(_ab._fuzzySpatialFrequentPatterns):
     _transactionsDB = []
     _fuzzyValuesDB = []
 
-    def __init__(self, iFile, nFile, FuzFile, minSup, maxPer, topK, sep):
-        super().__init__(iFile, nFile, FuzFile, minSup, maxPer, topK, sep)
+    def __init__(self, iFile, nFile, FuzFile, minSup, maxPer, sep):
+        super().__init__(iFile, nFile, FuzFile, minSup, maxPer, sep)
         self._mapItemNeighbours = {}
         self._startTime = 0
         self._endTime = 0
@@ -227,7 +219,6 @@ class FGPFPMiner(_ab._fuzzySpatialFrequentPatterns):
         self._itemSupData = {}
         self._mapItemSum = {}
         self._finalClosedPeriodicPatterns = {}
-        self._finalTopKpatterns = []
         self._mapItemRegions = {}
         self._fuzzyRegionReferenceMap = {}
         self._joinsCnt = 0
@@ -364,7 +355,7 @@ class FGPFPMiner(_ab._fuzzySpatialFrequentPatterns):
                     with open(self._nFile, 'r', encoding='utf-8') as f:
                         for line in f:
                             line = line.split("\n")[0]
-                            parts = [i.rstrip() for i in line.split(self._sep)]
+                            parts = [i.rstrip() for i in line.split(" ")]
                             parts = [x for x in parts]
                             item = parts[0]
                             neigh1 = []
@@ -378,12 +369,12 @@ class FGPFPMiner(_ab._fuzzySpatialFrequentPatterns):
 
     def _Regions(self, quantity):
 
-        self._list = [0] * len(self._LabelKey)
+        self.list = [0] * len(self._LabelKey)
         if self._RegionsCal[0][0] < quantity <= self._RegionsCal[0][1]:
-            self._list[0] = 1
+            self.list[0] = 1
             return
         elif quantity >= self._RegionsCal[-1][0]:
-            self._list[-1] = 1
+            self.list[-1] = 1
             return
         else:
             for i in range(1, len(self._RegionsCal) - 1):
@@ -391,12 +382,12 @@ class FGPFPMiner(_ab._fuzzySpatialFrequentPatterns):
                     base = self._RegionsCal[i][1] - self._RegionsCal[i][0]
                     for pos in range(0, 2):
                         if self._RegionsLabel[i][pos].islower():
-                            self._list[self._LabelKey[self._RegionsLabel[i][pos].capitalize()]] = float(
+                            self.list[self._LabelKey[self._RegionsLabel[i][pos].capitalize()]] = float(
                                 (self._RegionsCal[i][1] - quantity) / base)
                         else:
-                            self._list[self._LabelKey[self._RegionsLabel[i][pos].capitalize()]] = float(
+                            self.list[self._LabelKey[self._RegionsLabel[i][pos].capitalize()]] = float(
                                 (quantity - self._RegionsCal[i][0]) / base)
-        return
+            return
 
     def startMine(self):
         """ Frequent pattern mining process will start from here
@@ -407,6 +398,10 @@ class FGPFPMiner(_ab._fuzzySpatialFrequentPatterns):
         self._fuzzyMembershipFunc()
         self._finalPatterns = {}
         recent_occur = {}
+        low = 0
+        mid = 1
+        high = 2
+
         for line in range(len(self._transactionsDB)):
             item_list = self._transactionsDB[line]
             fuzzyValues_list = self._fuzzyValuesDB[line]
@@ -429,12 +424,18 @@ class FGPFPMiner(_ab._fuzzySpatialFrequentPatterns):
                 if item in self._mapItemNeighbours:
                     if fuzzy_ref not in self._fuzzyRegionReferenceMap:
                         self._Regions(int(fuzzy_ref))
-                        self._fuzzyRegionReferenceMap[fuzzy_ref] = self._list
+                        self._fuzzyRegionReferenceMap[fuzzy_ref] = self.list
 
-                    if item in self._itemSupData.keys():
-                        self._itemSupData[item] = [sum(i) for i in zip(self._itemSupData[item], self._fuzzyRegionReferenceMap[fuzzy_ref])]
                     else:
-                        self._itemSupData[item] = self._list
+                        if item in self._itemSupData.keys():
+                            self._itemSupData[item] = [
+                                self._itemSupData[item][low] + self._fuzzyRegionReferenceMap[fuzzy_ref][low],
+                                self._itemSupData[item][mid] + self._fuzzyRegionReferenceMap[fuzzy_ref][mid],
+                                self._itemSupData[item][high] + self._fuzzyRegionReferenceMap[fuzzy_ref][high]]
+                        else:
+                            self._itemSupData[item] = [self._fuzzyRegionReferenceMap[fuzzy_ref][low],
+                                                       + self._fuzzyRegionReferenceMap[fuzzy_ref][mid],
+                                                       + self._fuzzyRegionReferenceMap[fuzzy_ref][high]]
 
         for item in self._tidList.keys():
             self._tidList[item].append(len(self._transactionsDB) - recent_occur[item][-1])
@@ -493,6 +494,7 @@ class FGPFPMiner(_ab._fuzzySpatialFrequentPatterns):
             tid += 1
         itemNeighbours = list(self._mapItemNeighbours.keys())
         self._FSFIMining(self._itemSetBuffer, 0, listOfFFList, self._minSup, itemNeighbours)
+        self._generateClosedPatterns()
         self._endTime = _ab._time.time()
         process = _ab._psutil.Process(_ab._os.getpid())
         self._memoryUSS = float()
@@ -625,39 +627,6 @@ class FGPFPMiner(_ab._fuzzySpatialFrequentPatterns):
                 return List[mid]
         return None
 
-    def _findposition(self, List, value):
-        """
-            To find insert position to arrange the patterns in order
-            :param uList: List with support and pattern
-            :type uList:List with support and pattern
-            :param value:support value
-            :type value:int
-            :return:element insert position as given
-        """
-
-        first = 0
-        last = len(List) - 1
-        if List[0][1] < value:
-            return 0
-        if List[-1][1] > value:
-            return len(List)
-        while first <= last:
-            mid = (first + last) >> 1
-            if List[mid][1] < value:
-                first = mid + 1
-            elif List[mid][1] > value:
-                last = mid - 1
-            else:
-                return mid
-        if value > List[mid][1]:
-            while value > List[mid][1]:
-                mid -= 1
-            return mid
-        else:
-            while value < List[mid][1]:
-                mid += 1
-            return mid
-
     def _WriteOut(self, prefix, prefixLen, _FFListObject, sumIUtil):
         """
             To Store the patten
@@ -677,27 +646,21 @@ class FGPFPMiner(_ab._fuzzySpatialFrequentPatterns):
             res += str(prefix[i]) + "." + str(self._mapItemRegions[prefix[i]]) + " "
         res += str(item) + "." + str(self._mapItemRegions.get(item))
         res1 = str(sumIUtil)
+        self._finalPatterns[res] = res1
 
         if _FFListObject.isPeriodic:
             self._finalPeriodicPatterns[res] = res1
-            if (len(self._finalTopKpatterns) == 0):
-                pos = 0
-            else:
-                pos = self._findposition(self._finalTopKpatterns, res1)
-            self._finalTopKpatterns.insert(pos, [res, res1])
-
-
 
     def getPatternsAsDataFrame(self):
-        """Storing final topK patterns in a dataframe
+        """Storing final frequent patterns in a dataframe
         :return: returning frequent patterns in a dataframe
         :rtype: pd.DataFrame
         """
 
         dataFrame = {}
         data = []
-        for i in range(0,len(self._finalTopKpatterns)):
-            data.append([self._finalTopKpatterns[i][0], self._finalTopKpatterns[i][1]])
+        for a, b in self._finalClosedPeriodicPatterns.items():
+            data.append([a, b])
             dataFrame = _ab._pd.DataFrame(data, columns=['Patterns', 'Support'])
         return dataFrame
 
@@ -706,20 +669,104 @@ class FGPFPMiner(_ab._fuzzySpatialFrequentPatterns):
         :return: returning frequent patterns
         :rtype: dict
         """
-        return self._finalTopKpatterns
+        return self._finalClosedPeriodicPatterns
+
+    def _findGroup(self, st_dev, key):
+
+        value = float(self._finalPeriodicPatterns[key])
+        if (value <= self._supFloor):
+            return round(self._supFloor)
+        elif (value >= self._supCeiling):
+            return round(self._supCeiling)
+        else:
+            return ((round(value / st_dev)) + 1) * st_dev
+
+    def _generateClosedPatterns(self):
+
+        tempKeyList = []
+        for key in self._finalPeriodicPatterns.keys():
+            tempKeyList.append(float(self._finalPeriodicPatterns[key]))
+        self._supCeiling = max(tempKeyList)
+        self._supFloor = min(tempKeyList)
+        print("min:", self._supFloor, "max:", self._supCeiling, "standard deviation is:", stdev(tempKeyList))
+        keyList = sorted(list((self._finalPeriodicPatterns.keys())))
+        for checkKey in keyList:
+            group = round(float(self._finalPeriodicPatterns[checkKey]),1)
+            checkKey_List = [i.rstrip() for i in checkKey.split(" ")]
+            checkKey_List = [x for x in checkKey_List]
+            print("checking|", checkKey_List, "sup", group )
+            if str(group) in self._finalClosedPeriodicPatterns:
+                isClosed, isFound = False, False
+                ClosedPatterns = sorted(self._finalClosedPeriodicPatterns[str(group)])
+                for i in range(0, len(ClosedPatterns)):
+                    print("Against", ClosedPatterns[i])
+                    if set(checkKey_List).issubset(set(ClosedPatterns[i])):
+                        print("Result: NOT CLOSED and subset")
+                        isClosed, isFound = False, True
+                        break
+                    elif set(ClosedPatterns[i]).issubset(set(checkKey_List)):
+                        print("Result: CLOSED and superset")
+                        isClosed, isFound = True, True
+                        subsetIndexList = [i]
+                        for a in range(i+1,len(ClosedPatterns)):
+                            if set(ClosedPatterns[a]).issubset(set(checkKey_List)):
+                                print("Another subset found")
+                                subsetIndexList.append(a)
+                        tempList = self._finalClosedPeriodicPatterns[str(group)]
+                        self._finalClosedPeriodicPatterns.pop(str(group))
+                        #print(self._finalClosedPeriodicPatterns)
+                        print("1.", tempList)
+                        tempList.append(checkKey_List)
+                        print("2.", tempList)
+                        for a in subsetIndexList:
+                            tempList.remove(ClosedPatterns[a])
+                        print("3.", tempList)
+                        self._finalClosedPeriodicPatterns[str(group)] = tempList
+                        #print(self._finalClosedPeriodicPatterns)
+                        break
+                if isFound == False:
+                    print("Result: Unique and CLOSED")
+                    isClosed, isFound = True, True
+                    self._finalClosedPeriodicPatterns[str(group)].append(checkKey_List)
+            else:
+                print("Result: CLOSED first discovery in group")
+                self._finalClosedPeriodicPatterns[str(group)] = [checkKey_List]
 
     def savePatterns(self, outFile):
         """Complete set of frequent patterns will be loaded in to a output file
         :param outFile: name of the output file
         :type outFile: file
         """
+        filename = self._iFile.strip(".txt")
+        outFile = str(self._minSup) + "_FGPFP_" + filename + "_finalPatterns.txt"
+        self.oFile = outFile
+        keylist = (self._finalPatterns.keys())
+        writer = open(self.oFile, 'w+')
+        for x in keylist:
+            patternsAndSupport = str(x) + " : " + str(self._finalPatterns[x])
+            writer.write("%s \n" % patternsAndSupport)
 
-        outFile = "_FGPFP_Top "+ self._topK+ " Patterns.txt"
+        outFile = str(self._minSup) + "_FGPFP_" + filename + "_finalClosedPeriodicPatterns.txt"
         self.oFile = outFile
         writer = open(self.oFile, 'w+')
-        for i in range (0,int(self._topK)):
-            patternsAndSupport = str(self._finalTopKpatterns[i][0]) + " : " + str(self._finalTopKpatterns[i][1])
+        keylist = sorted(self._finalClosedPeriodicPatterns.keys())
+        for x in keylist:
+            patternsAndSupport = str(x) + " : " + str(self._finalClosedPeriodicPatterns[x])
             writer.write("%s \n" % patternsAndSupport)
+
+    def getPatternsAsDataframe(self):
+
+        """
+        :return: returning periodic frequent patterns in a dataframe
+        :rtype: pd.DataFrame
+        """
+
+        data = []
+        dataFrame = _ab._pd.DataFrame()
+        for a, b in self._finalPeriodicPatterns.items():
+            data.append([a, b])
+            dataFrame = _ab._pd.DataFrame(data, columns=['Patterns', 'Support'])
+        return dataFrame
 
     def generateLatexCode(self, result):
 
@@ -761,28 +808,44 @@ class FGPFPMiner(_ab._fuzzySpatialFrequentPatterns):
         fig = px.line(result, x='minsup', y='memoryRSS', color='algorithm', title='MemoryRSS)', markers=True)
         fig.show()
 
-
 if __name__ == "__main__":
     _ap = str()
-    if len(_ab._sys.argv) == 5 or len(_ab._sys.argv) == 8:
+    if len(_ab._sys.argv) == 5 or len(_ab._sys.argv) == 7:
+        print("Done")
         if len(_ab._sys.argv) == 6:
-            # print(_ab._sys.argv[1], _ab._sys.argv[2], _ab._sys.argv[3], _ab._sys.argv[4], _ab._sys.argv[5])
-            _ap = FGPFPMiner(_ab._sys.argv[1], _ab._sys.argv[2], _ab._sys.argv[3], _ab._sys.argv[4], _ab._sys.argv[5],
-                             _ab._sys.argv[6])
+            print(_ab._sys.argv[1], _ab._sys.argv[2], _ab._sys.argv[3], _ab._sys.argv[4], _ab._sys.argv[5])
+            _ap = FGPFPMiner(_ab._sys.argv[1], _ab._sys.argv[2], _ab._sys.argv[3], _ab._sys.argv[4],
+                             _ab._sys.argv[5], _ab._sys.argv[6])
         if len(_ab._sys.argv) == 5:
-            _ap = FGPFPMiner(_ab._sys.argv[1], _ab._sys.argv[2], _ab._sys.argv[3], _ab._sys.argv[4], _ab._sys.argv[5])
+            _ap = FGPFPMiner(_ab._sys.argv[1], _ab._sys.argv[2], _ab._sys.argv[3], _ab._sys.argv[4],
+                             _ab._sys.argv[5])
         result = pd.DataFrame(columns=['algorithm', 'minsup', 'patterns', 'runtime', 'memoryRSS', 'memoryUSS'])
+        minsupList = []
+        minSup = 2
+
+        for i in range(0, 1):
+            minSup -= 0
+            minsupList.append(minSup)
 
         algorithm = 'FGPFP'
-        for i in range(0, 1):
-            # print(_ab._sys.argv[1], _ab._sys.argv[2], _ab._sys.argv[3], _ab._sys.argv[4], _ab._sys.argv[5], _ab._sys.argv[6])
-            _ap = FGPFPMiner(_ab._sys.argv[1], _ab._sys.argv[2], _ab._sys.argv[3], _ab._sys.argv[4], _ab._sys.argv[5],
-                             _ab._sys.argv[6], _ab._sys.argv[7])
+        for i in range(0, len(minsupList)):
+            print(_ab._sys.argv[1], _ab._sys.argv[2], _ab._sys.argv[3], _ab._sys.argv[4], _ab._sys.argv[5],
+                  _ab._sys.argv[6])
+            _ap = FGPFPMiner(_ab._sys.argv[1], _ab._sys.argv[2], _ab._sys.argv[3], minsupList[i], _ab._sys.argv[5],
+                             _ab._sys.argv[6])
             _ap.startMine()
             df = pd.DataFrame(
-                [algorithm, _ab._sys.argv[4], len(_ap.getPatterns()), _ap.getRuntime(), _ap.getMemoryRSS(),
+                [algorithm, minsupList[i], len(_ap.getPatterns()), _ap.getRuntime(), _ap.getMemoryRSS(),
                  _ap.getMemoryUSS()], index=result.columns).T
             result = result.append(df, ignore_index=True)
 
-        _ap.savePatterns("outputfile.txt")
+        _ap.savePatterns("1.txt")
+
+
+
+
+
+
+
+
 
