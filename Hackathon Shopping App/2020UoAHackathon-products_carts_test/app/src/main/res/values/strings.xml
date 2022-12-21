@@ -1,0 +1,52 @@
+<resources>
+    <string name="app_name">InLocker</string>
+    <string name="yoku_beni_maru">Yoku Beni Maru</string>
+    <string name="_7_11">7/11</string>
+    <string name="family_mart">Family Mart</string>
+    <string name="tsuruga_drug_store">Tsuruga Drug Store</string>
+    <string name="lion_dor">Lion D\'or</string>
+    <string name="lawson">Lawson</string>
+    <string name="please_choose_category">Please choose category</string>
+    <string name="cateliary">cateliary</string>
+    <string name="toiletries">Toiletries</string>
+    <string name="drugs">Drugs</string>
+    <string name="food">food</string>
+    <string name="children_toys">Children toys</string>
+    <string name="clothes">Clothes</string>
+
+    <!-- more organized way -->
+    <string-array name="goods_demo">
+        <item>Item 1</item>
+        <item>Item 2</item>
+        <item>Item 3</item>
+        <item>Item 4</item>
+        <item>Item 5</item>
+    </string-array>
+
+    <string-array name="categories">
+        <item>Fruits</item>
+        <item>Veggies</item>
+        <item>Drugs</item>
+        <item>Drinks</item>
+        <item>Hair</item>
+    </string-array>
+    <!--
+    <string-array name="activity_stores">
+        <item>ヨークベニマル</item>
+        <item>7-eleven</item>
+        <item>ファミリーマート</item>
+        <item>ツルハドラッグ</item>
+        <item>Lion D\'or</item>
+        <item>ローソン</item>
+    </string-array>
+    -->
+
+    <string-array name="stores">
+        <item>@string/family_mart</item>
+        <item>@string/_7_11</item>
+        <item>@string/yoku_beni_maru</item>
+        <item>@string/tsuruga_drug_store</item>
+        <item>@string/lion_dor</item>
+        <item>@string/lawson</item>
+    </string-array>
+</resources>

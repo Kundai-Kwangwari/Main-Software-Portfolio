@@ -1,0 +1,110 @@
+[
+    {
+        "merged": "C:\\Users\\kunda\\PycharmProjects\\2020UoAHackathon-products_carts_test\\app\\build\\intermediates\\res\\merged\\debug\\mipmap-hdpi_ic_launcher.png.flat",
+        "source": "C:\\Users\\kunda\\PycharmProjects\\2020UoAHackathon-products_carts_test\\app\\src\\main\\res\\mipmap-hdpi\\ic_launcher.png"
+    },
+    {
+        "merged": "C:\\Users\\kunda\\PycharmProjects\\2020UoAHackathon-products_carts_test\\app\\build\\intermediates\\res\\merged\\debug\\mipmap-anydpi-v26_ic_launcher_round.xml.flat",
+        "source": "C:\\Users\\kunda\\PycharmProjects\\2020UoAHackathon-products_carts_test\\app\\src\\main\\res\\mipmap-anydpi-v26\\ic_launcher_round.xml"
+    },
+    {
+        "merged": "C:\\Users\\kunda\\PycharmProjects\\2020UoAHackathon-products_carts_test\\app\\build\\intermediates\\res\\merged\\debug\\mipmap-xhdpi_ic_launcher_round.png.flat",
+        "source": "C:\\Users\\kunda\\PycharmProjects\\2020UoAHackathon-products_carts_test\\app\\src\\main\\res\\mipmap-xhdpi\\ic_launcher_round.png"
+    },
+    {
+        "merged": "C:\\Users\\kunda\\PycharmProjects\\2020UoAHackathon-products_carts_test\\app\\build\\intermediates\\res\\merged\\debug\\mipmap-xxxhdpi_ic_launcher_round.png.flat",
+        "source": "C:\\Users\\kunda\\PycharmProjects\\2020UoAHackathon-products_carts_test\\app\\src\\main\\res\\mipmap-xxxhdpi\\ic_launcher_round.png"
+    },
+    {
+        "merged": "C:\\Users\\kunda\\PycharmProjects\\2020UoAHackathon-products_carts_test\\app\\build\\intermediates\\res\\merged\\debug\\mipmap-xxxhdpi_ic_launcher.png.flat",
+        "source": "C:\\Users\\kunda\\PycharmProjects\\2020UoAHackathon-products_carts_test\\app\\src\\main\\res\\mipmap-xxxhdpi\\ic_launcher.png"
+    },
+    {
+        "merged": "C:\\Users\\kunda\\PycharmProjects\\2020UoAHackathon-products_carts_test\\app\\build\\intermediates\\res\\merged\\debug\\layout_store_list_layout.xml.flat",
+        "source": "C:\\Users\\kunda\\PycharmProjects\\2020UoAHackathon-products_carts_test\\app\\src\\main\\res\\layout\\store_list_layout.xml"
+    },
+    {
+        "merged": "C:\\Users\\kunda\\PycharmProjects\\2020UoAHackathon-products_carts_test\\app\\build\\intermediates\\res\\merged\\debug\\drawable_ic_launcher_background.xml.flat",
+        "source": "C:\\Users\\kunda\\PycharmProjects\\2020UoAHackathon-products_carts_test\\app\\src\\main\\res\\drawable\\ic_launcher_background.xml"
+    },
+    {
+        "merged": "C:\\Users\\kunda\\PycharmProjects\\2020UoAHackathon-products_carts_test\\app\\build\\intermediates\\res\\merged\\debug\\mipmap-anydpi-v26_ic_launcher.xml.flat",
+        "source": "C:\\Users\\kunda\\PycharmProjects\\2020UoAHackathon-products_carts_test\\app\\src\\main\\res\\mipmap-anydpi-v26\\ic_launcher.xml"
+    },
+    {
+        "merged": "C:\\Users\\kunda\\PycharmProjects\\2020UoAHackathon-products_carts_test\\app\\build\\intermediates\\res\\merged\\debug\\drawable_personal_info.gif.flat",
+        "source": "C:\\Users\\kunda\\PycharmProjects\\2020UoAHackathon-products_carts_test\\app\\src\\main\\res\\drawable\\personal_info.gif"
+    },
+    {
+        "merged": "C:\\Users\\kunda\\PycharmProjects\\2020UoAHackathon-products_carts_test\\app\\build\\intermediates\\res\\merged\\debug\\drawable_back.png.flat",
+        "source": "C:\\Users\\kunda\\PycharmProjects\\2020UoAHackathon-products_carts_test\\app\\src\\main\\res\\drawable\\back.png"
+    },
+    {
+        "merged": "C:\\Users\\kunda\\PycharmProjects\\2020UoAHackathon-products_carts_test\\app\\build\\intermediates\\res\\merged\\debug\\mipmap-hdpi_ic_launcher_round.png.flat",
+        "source": "C:\\Users\\kunda\\PycharmProjects\\2020UoAHackathon-products_carts_test\\app\\src\\main\\res\\mipmap-hdpi\\ic_launcher_round.png"
+    },
+    {
+        "merged": "C:\\Users\\kunda\\PycharmProjects\\2020UoAHackathon-products_carts_test\\app\\build\\intermediates\\res\\merged\\debug\\drawable_cart_count_circle.png.flat",
+        "source": "C:\\Users\\kunda\\PycharmProjects\\2020UoAHackathon-products_carts_test\\app\\src\\main\\res\\drawable\\cart_count_circle.png"
+    },
+    {
+        "merged": "C:\\Users\\kunda\\PycharmProjects\\2020UoAHackathon-products_carts_test\\app\\build\\intermediates\\res\\merged\\debug\\mipmap-mdpi_ic_launcher_round.png.flat",
+        "source": "C:\\Users\\kunda\\PycharmProjects\\2020UoAHackathon-products_carts_test\\app\\src\\main\\res\\mipmap-mdpi\\ic_launcher_round.png"
+    },
+    {
+        "merged": "C:\\Users\\kunda\\PycharmProjects\\2020UoAHackathon-products_carts_test\\app\\build\\intermediates\\res\\merged\\debug\\mipmap-xxhdpi_ic_launcher.png.flat",
+        "source": "C:\\Users\\kunda\\PycharmProjects\\2020UoAHackathon-products_carts_test\\app\\src\\main\\res\\mipmap-xxhdpi\\ic_launcher.png"
+    },
+    {
+        "merged": "C:\\Users\\kunda\\PycharmProjects\\2020UoAHackathon-products_carts_test\\app\\build\\intermediates\\res\\merged\\debug\\mipmap-mdpi_ic_launcher.png.flat",
+        "source": "C:\\Users\\kunda\\PycharmProjects\\2020UoAHackathon-products_carts_test\\app\\src\\main\\res\\mipmap-mdpi\\ic_launcher.png"
+    },
+    {
+        "merged": "C:\\Users\\kunda\\PycharmProjects\\2020UoAHackathon-products_carts_test\\app\\build\\intermediates\\res\\merged\\debug\\drawable_store_demo.png.flat",
+        "source": "C:\\Users\\kunda\\PycharmProjects\\2020UoAHackathon-products_carts_test\\app\\src\\main\\res\\drawable\\store_demo.png"
+    },
+    {
+        "merged": "C:\\Users\\kunda\\PycharmProjects\\2020UoAHackathon-products_carts_test\\app\\build\\intermediates\\res\\merged\\debug\\layout_activity_stores.xml.flat",
+        "source": "C:\\Users\\kunda\\PycharmProjects\\2020UoAHackathon-products_carts_test\\app\\src\\main\\res\\layout\\activity_stores.xml"
+    },
+    {
+        "merged": "C:\\Users\\kunda\\PycharmProjects\\2020UoAHackathon-products_carts_test\\app\\build\\intermediates\\res\\merged\\debug\\drawable-v24_ic_launcher_foreground.xml.flat",
+        "source": "C:\\Users\\kunda\\PycharmProjects\\2020UoAHackathon-products_carts_test\\app\\src\\main\\res\\drawable-v24\\ic_launcher_foreground.xml"
+    },
+    {
+        "merged": "C:\\Users\\kunda\\PycharmProjects\\2020UoAHackathon-products_carts_test\\app\\build\\intermediates\\res\\merged\\debug\\layout_activity_main.xml.flat",
+        "source": "C:\\Users\\kunda\\PycharmProjects\\2020UoAHackathon-products_carts_test\\app\\src\\main\\res\\layout\\activity_main.xml"
+    },
+    {
+        "merged": "C:\\Users\\kunda\\PycharmProjects\\2020UoAHackathon-products_carts_test\\app\\build\\intermediates\\res\\merged\\debug\\drawable_item_chosen_count.png.flat",
+        "source": "C:\\Users\\kunda\\PycharmProjects\\2020UoAHackathon-products_carts_test\\app\\src\\main\\res\\drawable\\item_chosen_count.png"
+    },
+    {
+        "merged": "C:\\Users\\kunda\\PycharmProjects\\2020UoAHackathon-products_carts_test\\app\\build\\intermediates\\res\\merged\\debug\\layout_secondpage.xml.flat",
+        "source": "C:\\Users\\kunda\\PycharmProjects\\2020UoAHackathon-products_carts_test\\app\\src\\main\\res\\layout\\secondpage.xml"
+    },
+    {
+        "merged": "C:\\Users\\kunda\\PycharmProjects\\2020UoAHackathon-products_carts_test\\app\\build\\intermediates\\res\\merged\\debug\\drawable_cart.png.flat",
+        "source": "C:\\Users\\kunda\\PycharmProjects\\2020UoAHackathon-products_carts_test\\app\\src\\main\\res\\drawable\\cart.png"
+    },
+    {
+        "merged": "C:\\Users\\kunda\\PycharmProjects\\2020UoAHackathon-products_carts_test\\app\\build\\intermediates\\res\\merged\\debug\\mipmap-xhdpi_ic_launcher.png.flat",
+        "source": "C:\\Users\\kunda\\PycharmProjects\\2020UoAHackathon-products_carts_test\\app\\src\\main\\res\\mipmap-xhdpi\\ic_launcher.png"
+    },
+    {
+        "merged": "C:\\Users\\kunda\\PycharmProjects\\2020UoAHackathon-products_carts_test\\app\\build\\intermediates\\res\\merged\\debug\\layout_activity_products.xml.flat",
+        "source": "C:\\Users\\kunda\\PycharmProjects\\2020UoAHackathon-products_carts_test\\app\\src\\main\\res\\layout\\activity_products.xml"
+    },
+    {
+        "merged": "C:\\Users\\kunda\\PycharmProjects\\2020UoAHackathon-products_carts_test\\app\\build\\intermediates\\res\\merged\\debug\\drawable_search_bar.png.flat",
+        "source": "C:\\Users\\kunda\\PycharmProjects\\2020UoAHackathon-products_carts_test\\app\\src\\main\\res\\drawable\\search_bar.png"
+    },
+    {
+        "merged": "C:\\Users\\kunda\\PycharmProjects\\2020UoAHackathon-products_carts_test\\app\\build\\intermediates\\res\\merged\\debug\\mipmap-xxhdpi_ic_launcher_round.png.flat",
+        "source": "C:\\Users\\kunda\\PycharmProjects\\2020UoAHackathon-products_carts_test\\app\\src\\main\\res\\mipmap-xxhdpi\\ic_launcher_round.png"
+    },
+    {
+        "merged": "C:\\Users\\kunda\\PycharmProjects\\2020UoAHackathon-products_carts_test\\app\\build\\intermediates\\res\\merged\\debug\\drawable_search_icon.png.flat",
+        "source": "C:\\Users\\kunda\\PycharmProjects\\2020UoAHackathon-products_carts_test\\app\\src\\main\\res\\drawable\\search_icon.png"
+    }
+]
